@@ -5,3 +5,6 @@
 !.gitkeep
 !*.m
 !*/
+matconvnet/
+vlfeat/
+gsc/
