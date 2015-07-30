@@ -1,4 +1,4 @@
-function saliency_map = saliency_extraction(net, im, classno, layer)
+function [saliency_map, feature_map] = saliency_extraction(net, im, classno, layer)
 % net is the network
 % im is normalized image
 % labelno is the class number of the image
@@ -19,3 +19,4 @@ res = vl_simplenn(net, im, dzdy);
 
 %find dzdx of the first layer
 saliency_map = res(layer).dzdx;
+feature_map = res(layer).x;
