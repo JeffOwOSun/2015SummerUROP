@@ -4,7 +4,7 @@ run vlfeat/toolbox/vl_setup ;
 run matconvnet/matlab/vl_setupnn ;
 addpath matconvnet/examples ;
 
-opts.useGpu = false ;
+opts.useGpu = true ;
 opts.verbose = false ;
 opts = vl_argparse(opts, varargin) ;
 
@@ -19,7 +19,7 @@ if opts.useGpu
   try
     vl_nnconv(gpuArray(single(1)),gpuArray(single(1)),[]) ;
   catch
-    vl_compilenn('enableGpu', opts.useGpu, 'verbose', opts.verbose) ;
+    vl_compilenn('enableGpu', opts.useGpu, 'verbose', opts.verbose, 'cudaMethod', 'nvcc') ;
     warning('GPU support does not seem to be compiled in MatConvNet. Trying to compile it now') ;
   end
 end
