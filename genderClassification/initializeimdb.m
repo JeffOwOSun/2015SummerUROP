@@ -1,4 +1,4 @@
-function initializeimdb
+function imdb = initializeimdb
 
 % setup
 setup
@@ -10,16 +10,24 @@ male_dir = 'lfw-gender/male';
 % load images
 female_imarray = load_jpg_dir(female_dir);
 male_imarray = load_jpg_dir(male_dir);
+% TODO: normalize images
 % set labels
-female_labels = cell(size(female_imarray));
-female_labels(:) = {0};
-male_labels = cell(size(male_imarray));
-male_labels(:) = {1};
+female_labels = zeros(1, numel(female_imarray));
+male_labels = ones(1, numel(male_imarray)); 
+% set set
+female_set = ones(1, numel(female_imarray));
+val_index = randperm(numel(female_set)); % index of validation sets
+val_index = val_index(1:numel(val_index)/5);
+female_set(val_index) = 2; % validation set
+male_set = ones(1, numel(male_imarray));
+val_index = randperm(numel(male_set));
+val_index = val_index(1:numel(val_index)/5);
+male_set(val_index) = 2;
 
 imdb.images.data = cat(4, female_imarray{:} ,male_imarray{:});
-imdb.images.label = cat(1, female_labels{:}, male_labels{:});
-imdb.images.id = transpose(1:numel(imdb.images.label));
-%TODO set set
+imdb.images.label = [female_labels male_labels];
+imdb.images.id = 1:numel(imdb.images.label);
+imdb.images.set = [female_set, male_set];
 
 function imarray = load_jpg_dir(dir)
 % load images
