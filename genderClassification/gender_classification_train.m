@@ -28,7 +28,8 @@ else
 end
 
 net = initialize_net;
-imdb.images.data = bsxfun(@minus, imdb.images.data, net.normalization.averageImage);
+averageImage = net.normalization.averageImage;
+imdb.images.data = bsxfun(@minus, imdb.images.data, averageImage);
 
 % --------------------------------------------------------------------
 %                                                                Train
@@ -36,7 +37,9 @@ imdb.images.data = bsxfun(@minus, imdb.images.data, net.normalization.averageIma
 
 [net, info] = cnn_train(net, imdb, @getBatchWithJitter, ...
     opts.train) ;
-
+% save the network for later use
+net.layers(end) = [];
+save('gender-classification-vgg-f.mat', '-struct', 'net', '-v7.3');
 % --------------------------------------------------------------------
 function [im, labels] = getBatch(imdb, batch)
 % --------------------------------------------------------------------
