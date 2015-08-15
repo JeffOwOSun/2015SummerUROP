@@ -6,5 +6,5 @@ opts = vl_argparse(opts, varargin);
 net = load('imagenet-vgg-f.mat');
 
 % replace the last layers
-net.layers{20}.weights={{0.01/opts.scale * radn(1, 1, 4000, 2, 'single'), []}};
+net.layers{20}.weights={0.01/opts.scale * randn(1, 1, 4096, 2, 'single'), []};
 net.layers{21} = struct('type', 'softmaxloss', 'name', 'loss');
